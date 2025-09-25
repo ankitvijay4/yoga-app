@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yogapath</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    nav {
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1100;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav-left h2 {
+      font-weight: 600;
+      color: #444;
+    }
+
+    .nav-left ul {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-left ul li {
+      position: relative;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    nav a:hover {
+      color: #9c27b0;
+    }
+
+    /* Dropdown menu styling - flex wrap pills */
+    #asanaDropdownMenu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: rgba(156, 39, 176, 0.9);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      min-width: 240px;
+      max-width: 320px;
+      user-select: none;
+      z-index: 1050;
+      white-space: normal;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    #asanaDropdownMenu li {
+      list-style: none;
+      background: #7b1fa2;
+      border-radius: 20px;
+      padding: 0.4rem 1rem;
+      white-space: nowrap;
+    }
+
+    #asanaDropdownMenu li a {
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.9rem;
+      display: block;
+    }
+
+    #asanaDropdownMenu li a:hover {
+      text-decoration: underline;
+    }
+
+    header {
+      background: url('../public/custom_image.png') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+    }
+
+    header p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    section {
+      padding: 4rem 2rem;
+      max-width: 1000px;
+      margin: auto;
+      background: white;
+      border-radius: 10px;
+      margin-top: 2rem;
+      box-shadow: 0 4px 15px rgb(0 0 0 / 0.1);
+      position: relative;
+      z-index: 2;
+    }
+
+    section h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #9c27b0;
+    }
+
+    section p {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    input,
+    textarea {
+      padding: 0.8rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .btn {
+      background-color: #9c27b0;
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1.5rem;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    /* Testimonial styles updated to match page background */
+    #testimonials {
+      background: white; /* same as other sections */
+      padding: 4rem 2rem; /* match padding of other sections */
+      max-width: 1000px; /* same max width as other sections */
+      margin: 3rem auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgb(0 0 0 / 0.1);
+    }
+
+
+    #testimonials h2 {
+      color: #9c27b0;
+      text-align: center;
+      margin-bottom: 2rem;
+      font-weight: 600;
+    }
+
+    blockquote {
+      font-style: italic;
+      margin-bottom: 2rem;
+      color: #555;
+      padding-left: 1rem;
+      border-left: 4px solid #9c27b0;
+      background: transparent; /* Ensure no black background */
+    }
+
+    blockquote footer {
+      font-style: normal;
+      margin-top: 0.5rem;
+      font-weight: 600;
+      color: #9c27b0; /* Purple text for author name */
+      background-color: transparent; /* Fix black background */
+      padding: 0;
+      border-radius: 0;
+      display: inline-block;
+    }
+
+    footer {
+      background-color: #222;
+      color: #eee;
+      padding: 2rem;
+      text-align: center;
+      margin-top: 3rem;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="nav-left">
+      <h2>Yogapath</h2>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#classes">Classes</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li class="dropdown">
+          <a href="#" id="asanaToggle" aria-haspopup="true" aria-expanded="false">Your Pose Analyzer</a>
+          <ul id="asanaDropdownMenu" role="menu" aria-label="Asanas Dropdown Menu" tabindex="-1"></ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <header>
+    <h1>Journey to Unlock Strength, Find Serenity</h1>
+    <p>Join our online and in-studio yoga sessions to bring harmony to your body, mind, and soul.</p>
+    <a href="#classes" class="btn">Join a Class</a>
+  </header>
+
+  <section id="about">
+    <h2>About Us</h2>
+    <p>Yogapath is a community of experienced instructors and passionate practitioners offering personalized yoga guidance. Whether you're a beginner or advanced, our sessions are tailored to all levels.</p>
+  </section>
+
+  <section id="classes">
+    <h2>Our Classes</h2>
+    <p>We offer Vinyasa, Hatha, Yin, and Meditation classes both online and at our peaceful studio. Book a drop-in session or join our monthly membership.</p>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <p>Email: hello@yogapath.com<br />Phone: +1 234 567 8901</p>
+    <form>
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
+      <button type="submit" class="btn">Send Message</button>
+    </form>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials">
+    <h2>What Our Students Say</h2>
+    <blockquote>
+      "Yogapath transformed my life. The instructors are knowledgeable and supportive."
+      <footer>— Alex M.</footer>
+    </blockquote>
+    <blockquote>
+      "I love the community and the personalized classes. Highly recommend!"
+      <footer>— Sarah K.</footer>
+    </blockquote>
+    <blockquote>
+      "A welcoming place for all levels. The meditation classes really helped me find peace."
+      <footer>— John D.</footer>
+    </blockquote>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Yogapath. All rights reserved.</p>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('asanaToggle');
+    const dropdownMenu = document.getElementById('asanaDropdownMenu');
+
+    const poses = [
+      { anchor: "http://localhost:3000/?pose=ardhamatsyendrasana_pose", name: "Half Lord of the Fishes Pose" },
+      { anchor: "http://localhost:3000/?pose=namaste_pose", name: "Prayer Pose" },
+      { anchor: "http://localhost:3000/?pose=mountain_pose", name: "Mountains Pose" },
+      { anchor: "http://localhost:3000/?pose=tree_pose", name: "Tree Pose" },
+      { anchor: "http://localhost:3000/?pose=navasana_pose", name: "Boat Pose" }
+    ];
+
+    // Sort alphabetically by pose name
+    poses.sort((a, b) => a.name.localeCompare(b.name));
+
+    // Populate dropdown with wrapped pills
+    poses.forEach(pose => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = pose.anchor;
+      a.textContent = pose.name;
+      a.setAttribute('role', 'menuitem');
+      li.appendChild(a);
+      dropdownMenu.appendChild(li);
+    });
+
+    toggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isOpen = dropdownMenu.style.display === 'flex';
+      dropdownMenu.style.display = isOpen ? 'none' : 'flex';
+      toggle.setAttribute('aria-expanded', !isOpen);
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!dropdownMenu.contains(e.target) && e.target !== toggle) {
+        dropdownMenu.style.display = 'none';
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Close dropdown on ESC key press
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        dropdownMenu.style.display = 'none';
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  </script>
+</body>
+
+</html>
