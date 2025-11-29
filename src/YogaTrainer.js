@@ -70,29 +70,31 @@ const YogaTrainer = () => {
     console.log("Set poseName:", pose); // Debug poseName setting
   }, []);
 
- useEffect(() => {
+useEffect(() => {
   if (!feedback.length) return;
 
-  const firstMessage = feedback[0]?.message;
+  const firstMessage = feedback[0]?.message?.trim();
   if (!firstMessage || firstMessage === "✅ Tree Pose: Perfect alignment!") return;
 
   const now = Date.now();
+  const MIN_INTERVAL_MS = 5000; // 5 seconds cooldown
 
-  // Initialize or update spoken message tracking
-  if (
-    !lastSpokenMessage.current ||
-    lastSpokenMessage.current.message !== firstMessage
-  ) {
-    // New posture issue — reset and speak
-    lastSpokenMessage.current = { message: firstMessage, count: 1, lastSpokenTime: now };
-  } else if (lastSpokenMessage.current.count < 2) {
-    // Same message — speak again only if spoken less than twice
-    lastSpokenMessage.current.count += 1;
-    lastSpokenMessage.current.lastSpokenTime = now;
-  } else {
-    // Spoken enough times
-    return;
+  if (lastSpokenMessage.current) {
+    const { message, lastSpokenTime } = lastSpokenMessage.current;
+
+    // If it's the same message and too soon, skip
+    if (message === firstMessage && now - lastSpokenTime < MIN_INTERVAL_MS) {
+      return;
+    }
+
+    // If it's a different message but still too soon, also skip
+    if (message !== firstMessage && now - lastSpokenTime < MIN_INTERVAL_MS) {
+      return;
+    }
   }
+
+  // Update last spoken
+  lastSpokenMessage.current = { message: firstMessage, lastSpokenTime: now };
 
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(firstMessage);
@@ -101,6 +103,7 @@ const YogaTrainer = () => {
   utterance.pitch = 1;
   window.speechSynthesis.speak(utterance);
 }, [feedback]);
+
 
 
   const sendToBackend = useCallback(
@@ -443,12 +446,7 @@ const YogaTrainer = () => {
           onDoubleClick={handleToggle}
           title="Double click to toggle size"
         >
-          <video
-            src="/Test1.mp4"
-            autoPlay
-            muted
-            controls
-            style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 8 }}
+          <img src={`/${poseName}.png`} style={{ width: "100%", height: "100%", objectFit: "contain", borderRadius: 8 }} />
           />
         </div>
       </div>
